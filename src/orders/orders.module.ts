@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ProductsController } from './products.controller';
+import { OrdersController } from './orders.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { NATS_SERVICES} from '../config/services';
+import { NATS_SERVICES } from '../config/services';
 import { envs } from '../config/envs';
 import { NatsModule } from '../transports/nats.module';
 
@@ -9,7 +9,7 @@ import { NatsModule } from '../transports/nats.module';
   imports: [
     NatsModule
   ],
-  controllers: [ProductsController],
+  controllers: [OrdersController],
   providers: [],
 })
-export class ProductsModule {}
+export class OrdersModule {}
