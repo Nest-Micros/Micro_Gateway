@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseGuards } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { NATS_SERVICES, ORDERS_SERVICE } from '../config/services';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError, of } from 'rxjs';
 import { ChangeOrderStatusDto } from './dto/status.dto';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('orders')
 export class OrdersController {
@@ -23,6 +24,8 @@ export class OrdersController {
     );
   }
 
+
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.client.send({ cmd: 'find-all-orders' }, {}).pipe(
