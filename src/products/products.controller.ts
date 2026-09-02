@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError, firstValueFrom } from 'rxjs';
 import { CreateProductDto } from '../common/dto/create-product.dto';
@@ -32,7 +32,7 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id') id: string) {
       return this.client.send({ cmd: 'find-product-by-id' }, { id }).pipe(
         catchError(error => {
           throw new RpcException(error as object | string)
@@ -41,7 +41,7 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateProductDto: UpdateProductDto) {
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.client.send({ cmd: 'update-product' }, { id, ...updateProductDto }).pipe(
       catchError(error => {
         throw new RpcException(error as object | string)

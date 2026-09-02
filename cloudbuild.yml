@@ -1,0 +1,21 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/micro_auth",
+        "-f",
+        "dockerfile.prod",
+        "--platform=linux/amd64",
+        ".",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/micro_auth",
+      ]
+
+options:
+  logging: CLOUD_LOGGING_ONLY

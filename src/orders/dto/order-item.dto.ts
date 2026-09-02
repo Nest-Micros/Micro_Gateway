@@ -1,10 +1,9 @@
-import { IsNumber, IsPositive } from "class-validator";
+import { IsMongoId, IsNumber, IsPositive } from "class-validator";
 
 
 export class OrderItemDto {
-    @IsNumber()
-    @IsPositive()
-    productId!: number;
+    @IsMongoId()
+    productId!: string;
 
     @IsNumber()
     @IsPositive()
