@@ -4,7 +4,7 @@ steps:
       [
         "build",
         "-t",
-        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/micro_auth",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway",
         "-f",
         "dockerfile.prod",
         "--platform=linux/amd64",
@@ -14,7 +14,7 @@ steps:
     args:
       [
         "push",
-        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/micro_auth",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway",
       ]
 
 options:
