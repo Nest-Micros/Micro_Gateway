@@ -24,6 +24,32 @@ steps:
         "push",
         "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway:latest",
       ]
+  - name: "gcr.io/cloud-builders/git"
+    secretEnv: ["GITHUB_TOKEN"]
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        git clone --branch main --depth 1 \
+          "https://x-access-token:$$GITHUB_TOKEN@github.com/Nest-Micros/K8S.git" k8s-config
+        cd k8s-config
+        git config user.email "cloudbuild@microservicios-dev-507409.iam.gserviceaccount.com"
+        git config user.name "Cloud Build"
+        sed -i "s|microservicios-dev/gateway:[a-zA-Z0-9._-]*|microservicios-dev/gateway:$SHORT_SHA|" \
+          microservicios-dev/deployments/gateway.yml
+        git add microservicios-dev/deployments/gateway.yml
+        if git diff --cached --quiet; then
+          echo "gateway already at $SHORT_SHA"
+        else
+          git commit -m "chore(dev): bump gateway to $SHORT_SHA"
+          git push origin main
+        fi
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/microservicios-dev-507409/secrets/github-k8s-token/versions/latest
+      env: GITHUB_TOKEN
 
 options:
   logging: CLOUD_LOGGING_ONLY
