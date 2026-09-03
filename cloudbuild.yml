@@ -4,7 +4,9 @@ steps:
       [
         "build",
         "-t",
-        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway:$SHORT_SHA",
+        "-t",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway:latest",
         "-f",
         "dockerfile.prod",
         "--platform=linux/amd64",
@@ -14,7 +16,13 @@ steps:
     args:
       [
         "push",
-        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway:$SHORT_SHA",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "europe-central2-docker.pkg.dev/microservicios-dev-507409/microservicios-dev/gateway:latest",
       ]
 
 options:
